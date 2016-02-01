@@ -5,6 +5,14 @@ import java.awt.event.*;
 
 public class LoginDialog extends Dialog implements ActionListener,WindowListener{
 
+	boolean canceled;		// キャンセルのときはtrue OKおしたら false
+	TextField tfUserID;		//ユーザIDを入力するテキストフィールト 
+	TextField tfPassword;	//パスワードを入力するテキストフィールト
+	Button buttonOK;		//OKボタン
+	Button buttonCancel;	//キャンセルボタン
+	Panel panelNorth;		//上部パネル 
+	Panel panelMid;			//中央のパネル 
+	Panel panelSouth;		//下部パネル
 	public LoginDialog(Frame arg0) {
 		//基底クラス(Dialog)のコンストラクタを呼び出す
 				super(arg0,"Login",true);
@@ -52,14 +60,7 @@ public class LoginDialog extends Dialog implements ActionListener,WindowListener
 
 	}
 
-	boolean canceled;		// キャンセルのときはtrue OKおしたら false
-	TextField tfUserID;		//ユーザIDを入力するテキストフィールト 
-	TextField tfPassword;	//パスワードを入力するテキストフィールト
-	Button buttonOK;		//OKボタン
-	Button buttonCancel;	//キャンセルボタン
-	Panel panelNorth;		//上部パネル 
-	Panel panelMid;			//中央のパネル 
-	Panel panelSouth;		//下部パネル
+
 	@Override
 	public void windowOpened(WindowEvent e) {
 		// TODO 自動生成されたメソッド・スタブ

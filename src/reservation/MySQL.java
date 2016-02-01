@@ -51,7 +51,7 @@ public class MySQL {
 		}
 	}
 	
-public ResultSet getReservation(String rdate, String facility){
+	public ResultSet getReservation(String rdate, String facility){
 		
 		String sql = "SELECT * FROM reservation WHERE date ='" + rdate + "' AND facility_name = '"+ facility +"' ORDER BY start_time;";
 		ResultSet rs = null;
@@ -64,6 +64,48 @@ public ResultSet getReservation(String rdate, String facility){
 		return rs;
 		
 	}
+	
+	public ResultSet getLogin(String reservation_userid){
+		String sql = "SELECT * FROM user WHERE user_id ='" + reservation_userid + "';";
+		try {
+			rs = stmt.executeQuery(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		return rs;
+		
+	}
+
+	public ResultSet selectReservation(String rdate, String facility){
+		
+		String sql = "SELECT * FROM reservation WHERE facility_name ='" + facility +
+			      "' AND date = '" + rdate + "' ;";
+			      // クエリーを実行して結果のセットを取得
+		ResultSet rs = null;
+		try {
+			rs = stmt.executeQuery(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rs;
+	}
+	
+	public int setReservation(String rdate, String st, String et, String reservation_userid, String facility){
+		int rs_int = 0;
+		String sql = "INSERT INTO reservation (date,start_time,end_time,user_id,facility_name) VALUES ( '"
+		    + rdate +"', '"  + st +"','" + et + "','" + reservation_userid +"','" + facility +"');";
+		    	  try {
+					rs_int = stmt.executeUpdate(sql);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				return rs_int;
+	}
+
 
 
 }

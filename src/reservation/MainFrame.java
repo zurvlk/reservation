@@ -186,10 +186,16 @@ public class MainFrame extends Frame implements ActionListener,WindowListener,Ke
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		String result = new String();
+		
 		textMessage.setText("");
 		if ( e.getSource() == buttonVacancy){ // 空き状況確認ボタン
 			result = reservationControl.getReservationOn(choiceFacility.getSelectedItem(), tfYear.getText(), tfMonth.getText(), tfDay.getText());
+		}else if (e.getSource() == buttonLog){
+			result = reservationControl.loginLogout(this);
+		}else if (e.getSource() == buttonReservation){
+			result = reservationControl.makeReservation(this);
 		}
+
 		textMessage.setText(result);
 
 	}

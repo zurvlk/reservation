@@ -7,7 +7,7 @@ public class ReservationSystem {
 
 		ReservationControl reservationControl = new ReservationControl();
 		MainFrame mainFrame = new MainFrame(reservationControl);
-		 mainFrame.setBounds( 5, 5, 620, 500 );
+		 mainFrame.setBounds( 5, 5, 660, 500 );
 		 mainFrame.setVisible(true);
 
 	}
