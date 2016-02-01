@@ -105,6 +105,8 @@ throws HeadlessException{
 		
 		add(panelSouth, BorderLayout.CENTER);
 		
+		
+		
 	}
 	
 	@Override
@@ -171,7 +173,17 @@ throws HeadlessException{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO 自動生成されたメソッド・スタブ
+		String result = new String();
+		textMessage.setText("");
+		if ( e.getSource() == buttonVacancy){ // 空き状況確認ボタン
+			result = reservationControl.getReservationOn(choiceFacility.getSelectedItem(), tfYear.getText(), tfMonth.getText(), tfDay.getText());
+		}
+		textMessage.setText(result);
+
+
+
 		
 	}
 
+	
 }
