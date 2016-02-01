@@ -6,74 +6,8 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class ReservationControl {
-	static Connection sqlCon;
-	static Statement sqlStmt;
-	static String userid = "学籍番号"; //ユーザID
-	static String password = "学籍番号"; //パスワード
-	public static void main(String args[]){
-		ReservationControl reservationControl = new ReservationControl();
-		MainFrame mainFrame = new MainFrame(reservationControl);
-			
-		mainFrame.setBounds(5, 5, 655, 490);
-		mainFrame.setVisible(true);	
-	}
 	
-	private static void connectDB(){
-		  try{
-		      // ドライバクラスをロード
-		      Class.forName("org.gjt.mm.mysql.Driver"); // MySQLの指定
 
-		      // データベースへのURLを作成
-		      String url = "jdbc:mysql://localhost?useUnicode=true&characterEncoding=utf8";
-		      // ユーザIDとパスワードを設定して接続
-		      sqlCon = DriverManager.getConnection(url,userid, password);
-
-		      // ステートメントオブジェクトを生成
-		      sqlStmt = sqlCon.createStatement();
-		    } catch (Exception e) {
-			      e.printStackTrace();
-		    }
-		}
-	
-	private static void closeDB(){
-		try{
-			sqlStmt.close();
-			sqlCon.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public String selectReservation(){
-
-		String res = "";
-
-		//(1) MySQLを使用する準備
-		connectDB();
-
-		//(2) MySQLの操作(SELECT文の実行)
-		try {
-		      // 予約情報を取得するクエリ
-		      String sql = "SELECT * FROM practice.reservation;";
-		      // クエリーを実行して結果セットを取得
-		      ResultSet rs = sqlStmt.executeQuery(sql);
-		      // 検索結果からレコードを１つずつ取り出し，3つのカラムの値を表示
-		      while(rs.next()){
-		    	  String student = rs.getString("student_id");
-		    	  String facility_name = rs.getString("facility_name");
-		    	  String date = rs.getString("date");
-		    	  res += date + "  " + student + "  " + facility_name +"\n" ;
-		      }
-		} catch (Exception e) {
-			res = "データ検索においてエラーが生じました";
-		}
-
-		//(3) MySQへの接続切断
-		closeDB();
-
-		return res;
-	}
-	
 	//指定した日,施設の 空き状況(というか予約状況)
 	public String getReservationOn( String facility, String ryear_str, String rmonth_str, String rday_str){
 		String res = "";
@@ -99,14 +33,13 @@ public class ReservationControl {
 		String rdate = ryear_str + "-" + rmonth_str + "-" + rday_str;
 
 		//(1) MySQL を使用する準備
-		connectDB();
+		//connectDB();
+		MySQL mysql = new MySQL();
 
 		//(2) MySQLの操作(SELECT文の実行)
 		try {
 			// 予約情報を取得するクエリ
-			String sql = "SELECT * FROM db_reservation.reservation WHERE date ='" + rdate + "' AND facility_name = '"+ facility +"' ORDER BY start_time;";
-			// クエリーを実行して結果セットを取得
-			ResultSet rs = sqlStmt.executeQuery(sql); // 検索結果から予約状況を作成
+			ResultSet rs = mysql.getReservation(rdate, facility);
 			boolean exist = false;
 			while(rs.next()){
 				String start = rs.getString("start_time");
@@ -121,12 +54,15 @@ public class ReservationControl {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		//(3) MySQ への接続切断
-		closeDB();
+		
 		return res;
 	}
+	
 
 
-	
-	
+
+
+
 }
+
+
