@@ -194,6 +194,8 @@ public class MainFrame extends Frame implements ActionListener,WindowListener,Ke
 			result = reservationControl.loginLogout(this);
 		}else if (e.getSource() == buttonReservation){
 			result = reservationControl.makeReservation(this);
+		}else if(e.getSource() == buttonConfirm){
+			result = reservationControl.getReservation_user();
 		}
 
 		textMessage.setText(result);

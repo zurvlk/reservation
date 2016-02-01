@@ -3,7 +3,9 @@ package reservation;
 public class ReservationSystem {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		//めも
+		//できる：ログイン、予約
+		//できない：キャンセル、予約確認
 
 		ReservationControl reservationControl = new ReservationControl();
 		MainFrame mainFrame = new MainFrame(reservationControl);

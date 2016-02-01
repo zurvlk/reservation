@@ -64,6 +64,36 @@ public class ReservationControl {
 		
 		return res;
 	}
+	public String getReservation_user(){
+		String res = "";
+		MySQL mysql = new MySQL();
+		
+		if(reservation_userid.isEmpty()){
+			res = "予約照会を行いたいユーザーでログインしてください";
+		}else{
+			try {
+				// 予約情報を取得するクエリ
+				ResultSet rs = mysql.getReservation_user(reservation_userid);
+				boolean exist = false;
+				while(rs.next()){
+					String user = rs.getString("user_id");
+					String start = rs.getString("start_time");
+					String end = rs.getString("end_time");
+					res += "ユーザー名:"+ user + "    " + start + " -- " + end + "\n";
+					exist = true;
+				}
+	
+				if ( !exist){ //予約が1つも存在しない場合の処理
+					res = "予約はありません";
+				}
+			}catch(Exception e){
+				e.printStackTrace();
+				res = "予約照会を行いたいユーザーでログインしてください";
+			}
+		}
+			
+		return res;
+	}
 	//////ログイン・ログアウトボタンの処理
 	//////ログイン・ログアウトボタンの処理
 	public String loginLogout( MainFrame frame){

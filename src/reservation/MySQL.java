@@ -64,6 +64,19 @@ public class MySQL {
 		return rs;
 		
 	}
+	public ResultSet getReservation_user(String reservation_userid){
+		
+		String sql = "SELECT * FROM reservation WHERE user_id ='" + reservation_userid + "';";
+		ResultSet rs = null;
+		try {
+			rs = stmt.executeQuery (sql);  //try catchで囲む
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rs;
+		
+	}
 	
 	public ResultSet getLogin(String reservation_userid){
 		String sql = "SELECT * FROM user WHERE user_id ='" + reservation_userid + "';";
