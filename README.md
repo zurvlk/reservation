@@ -17,5 +17,5 @@ MySQLを利用した簡単な施設利用システムです。
 
 ライセンス
 ----------
-Copyright &copy; 2015　Zhuravlik
+Copyright &copy; 2015　Zhuravlik  
 煮るなり焼くなりお好きにどうぞ
