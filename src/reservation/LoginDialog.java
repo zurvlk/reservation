@@ -18,6 +18,7 @@ public class LoginDialog extends Dialog implements ActionListener,WindowListener
 				super(arg0,"Login",true);
 				//キャンセルは初期値ではtrueとしておく
 				canceled = true;
+				
 
 				// テキストフィールドの生成
 				tfUserID = new TextField("",10);

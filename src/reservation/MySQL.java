@@ -62,8 +62,8 @@ public class MySQL {
 			e.printStackTrace();
 		}
 		return rs;
-		
 	}
+	
 	public ResultSet getReservation_user(String reservation_userid){
 		
 		String sql = "SELECT * FROM reservation WHERE user_id ='" + reservation_userid + "';";
@@ -78,6 +78,19 @@ public class MySQL {
 		
 	}
 	
+	public ResultSet deleate_Reservation(String reservation_userid){
+		
+		String sql = "DELETE * FROM reservation WHERE user_id ='" + reservation_userid + "';";
+		ResultSet rs = null;
+		try {
+			rs = stmt.executeQuery (sql);  //try catchで囲む
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rs;
+		
+	}
 	public ResultSet getLogin(String reservation_userid){
 		String sql = "SELECT * FROM user WHERE user_id ='" + reservation_userid + "';";
 		try {
@@ -107,20 +120,21 @@ public class MySQL {
 	
 	public int setReservation(String rdate, String st, String et, String reservation_userid, String facility){
 		int rs_int = 0;
+		System.out.println(rdate);
+		System.out.println(st);
+		System.out.println(et);
+		System.out.println(reservation_userid);
+		System.out.println(facility);
 		String sql = "INSERT INTO reservation (date,start_time,end_time,user_id,facility_name) VALUES ( '"
 		    + rdate +"', '"  + st +"','" + et + "','" + reservation_userid +"','" + facility +"');";
-		    	  try {
-					rs_int = stmt.executeUpdate(sql);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				return rs_int;
+		    	
+		try {
+			rs_int = stmt.executeUpdate(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	
+		return rs_int;
 	}
-
-
-
 }
 
 

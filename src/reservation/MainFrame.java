@@ -40,12 +40,12 @@ public class MainFrame extends Frame implements ActionListener,WindowListener,Ke
 	public MainFrame(ReservationControl reservationControl) throws HeadlessException {
 		this.reservationControl = reservationControl;
 		// ボタンの生成
-		buttonLog = new Button("ログイン");
-		buttonExplanation = new Button(" 施設概要");
-		buttonVacancy = new Button(" 空き状況確認");
-		buttonReservation = new Button(" 新規予約");
-		buttonConfirm = new Button(" 予約の確認");
-		buttonCancel = new Button(" 予約のキャンセル");
+		buttonLog = new Button("Login");
+		buttonExplanation = new Button("施設概要");
+		buttonVacancy = new Button("空き状況確認");
+		buttonReservation = new Button("新規予約");
+		buttonConfirm = new Button("予約の確認");
+		buttonCancel = new Button("予約のキャンセル");
 		
 		// 設備チョイスボックスの生成
 		choiceFacility = new ChoiceFacility();

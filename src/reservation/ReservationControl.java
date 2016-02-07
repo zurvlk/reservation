@@ -68,18 +68,23 @@ public class ReservationControl {
 		String res = "";
 		MySQL mysql = new MySQL();
 		
-		if(reservation_userid.isEmpty()){
-			res = "予約照会を行いたいユーザーでログインしてください";
-		}else{
+		if(flagLogin){
+
 			try {
 				// 予約情報を取得するクエリ
 				ResultSet rs = mysql.getReservation_user(reservation_userid);
 				boolean exist = false;
 				while(rs.next()){
-					String user = rs.getString("user_id");
+					String date = rs.getString("date");
 					String start = rs.getString("start_time");
 					String end = rs.getString("end_time");
-					res += "ユーザー名:"+ user + "    " + start + " -- " + end + "\n";
+					String user = rs.getString("user_id");
+					String facility = rs.getString("facility_name");
+					
+					//日付データの不要な箇所を消去
+					String[] date_split = date.split("[\\s]+"); 
+					
+					res += "ユーザー名:"+ user +"  "+ facility + "   " + date_split[0] + "  " + start + " -- " + end + "\n";
 					exist = true;
 				}
 	
@@ -90,11 +95,47 @@ public class ReservationControl {
 				e.printStackTrace();
 				res = "予約照会を行いたいユーザーでログインしてください";
 			}
+			
+		}else{
+			res = "予約照会を行いたいユーザーでログインしてください";
 		}
 			
 		return res;
 	}
-	//////ログイン・ログアウトボタンの処理
+	
+	public String deleate_Reservation(){
+		String res = "";
+		MySQL mysql = new MySQL();
+		
+		if(flagLogin){
+			try {
+				ResultSet rs = mysql.getReservation_user(reservation_userid);
+				boolean exist = false;
+				
+				while(rs.next()){
+					String date = rs.getString("date");
+					String start = rs.getString("start_time");
+					String end = rs.getString("end_time");
+					String facility = rs.getString("facility_name");
+					res +=  "予約時刻：" + date + "  " + start + " -- " + end +" 施設名" + facility +"\n";
+					exist = true;
+				}
+				
+				rs = mysql.deleate_Reservation(reservation_userid);
+				res += "これらの予約を削除しました\n";
+				
+				if ( !exist){ 
+					res = "予約はありません";
+				}
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return res;
+	}
+
+
 	//////ログイン・ログアウトボタンの処理
 	public String loginLogout( MainFrame frame){
 		String res=""; //結果を入れる変数
@@ -126,7 +167,8 @@ public class ReservationControl {
 					String password_from_db = rs.getString("password");
 					if ( password_from_db.equals(password)){ //認証成功:データベースのIDとパスワードに一致
 						flagLogin = true;
-						frame.buttonLog.setLabel("ログアウト");
+						frame.buttonLog.setLabel("Logout");
+						//reservation_userid = null;
 						res = "";
 					}else {
 						//認証失敗:パスワードが不一致
@@ -213,7 +255,7 @@ public class ReservationControl {
 
 						      if (!ng){	//重なっていない場合
 			
-						    	  int rs_int = mysql.setReservation(rdate, st, et, res, facility);
+						    	  int rs_int = mysql.setReservation(rdate, st, et, reservation_userid, facility);
 						    	  res ="予約されました";
 						      } else {	//重なっていた場合
 						    	  res = "既にある予約に重なっています";
@@ -233,6 +275,7 @@ public class ReservationControl {
 		}
 		return res;
 	}
+	
 	private boolean checkReservationDate(int ryear, int rmonth, int rday) {
 		// TODO 自動生成されたメソッド・スタブ
 		// 予約日
