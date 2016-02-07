@@ -103,48 +103,53 @@ public class ReservationControl {
 		return res;
 	}
 	
-	public String deleate_Reservation(){
+	public String delReservation(){
 		String res = "";
 		MySQL mysql = new MySQL();
 		
 		if(flagLogin){
 			try {
-				ResultSet rs = mysql.getReservation_user(reservation_userid);
-				boolean exist = false;
+				res = getReservation_user();
+				int rs = mysql.deleate_Reservation(reservation_userid);
+				res += "上記の予約を削除しました\n";
 				
-				while(rs.next()){
-					String date = rs.getString("date");
-					String start = rs.getString("start_time");
-					String end = rs.getString("end_time");
-					String facility = rs.getString("facility_name");
-					res +=  "予約時刻：" + date + "  " + start + " -- " + end +" 施設名" + facility +"\n";
-					exist = true;
-				}
-				
-				rs = mysql.deleate_Reservation(reservation_userid);
-				res += "これらの予約を削除しました\n";
-				
-				if ( !exist){ 
-					res = "予約はありません";
-				}
 			}catch(Exception e){
 				e.printStackTrace();
 			}
+		}else{
+			res ="ログインしてください";
 		}
-		
 		return res;
 	}
 
-
+	public String facilityInfo(){
+		String res = "";
+		MySQL mysql = new MySQL();
+		
+		try {
+			ResultSet rs = mysql.getFacilityInfo();			
+		
+			while(rs.next()){
+				String explanation = rs.getString("explanation");
+				res += explanation +"\n";
+			}
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return res;
+	}
+	
 	//////ログイン・ログアウトボタンの処理
 	public String loginLogout( MainFrame frame){
 		String res=""; //結果を入れる変数
-		if ( flagLogin){ //ログアウトを行う処理
+		if (flagLogin){ //ログアウトを行う処理
 			flagLogin = false;
-			frame.buttonLog.setLabel("ログイン"); //ログインを行う処理
+			frame.buttonLog.setLabel("Login"); //ログインを行う処理
 		} else {
 			//ログインダイアログの生成と表示
 			LoginDialog ld = new LoginDialog(frame);
+			ld.setBounds(5,5,250,130);
 			ld.setVisible(true);
 			ld.setModalityType(LoginDialog.ModalityType.APPLICATION_MODAL);
 			//IDとパスワードの入力がキャンセルされたら,空文字列を結果として終了
@@ -172,10 +177,10 @@ public class ReservationControl {
 						res = "";
 					}else {
 						//認証失敗:パスワードが不一致
-						res = "ログインできません.ID パスワードかちがいます";
+						res = "ログインできません.ID パスワードを確認してください";
 					}
 				} else { //認証失敗;ユーザIDがデータベースに存在しない
-					res = "ログインできません.ID パスワードが 違います。";
+					res = "ログインできません.ID パスワードを確認してください。";
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -188,9 +193,10 @@ public class ReservationControl {
 
 		String res="";		//結果を入れる変数
 
-		if ( flagLogin){ // ログインしていた場合
+		if (flagLogin){ // ログインしていた場合
 			//新規予約画面作成
 			ReservationDialog rd = new ReservationDialog(frame);
+			rd.setBounds( 5, 5, 500, 150 );
 
 			// 新規予約画面の予約日に，メイン画面に設定されている年月日を設定する
 			rd.tfYear.setText(frame.tfYear.getText());

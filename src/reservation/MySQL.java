@@ -66,7 +66,7 @@ public class MySQL {
 	
 	public ResultSet getReservation_user(String reservation_userid){
 		
-		String sql = "SELECT * FROM reservation WHERE user_id ='" + reservation_userid + "';";
+		String sql = "SELECT * FROM reservation WHERE user_id ='" + reservation_userid + "'ORDER BY date, start_time;";
 		ResultSet rs = null;
 		try {
 			rs = stmt.executeQuery (sql);  //try catchで囲む
@@ -78,19 +78,18 @@ public class MySQL {
 		
 	}
 	
-	public ResultSet deleate_Reservation(String reservation_userid){
-		
-		String sql = "DELETE * FROM reservation WHERE user_id ='" + reservation_userid + "';";
-		ResultSet rs = null;
+	public int deleate_Reservation(String reservation_userid){
+		String sql = "DELETE FROM `reservation` WHERE user_id ='" + reservation_userid + "';";
+		System.out.println(sql+"\n");
+		int resalt = 0;
 		try {
-			rs = stmt.executeQuery (sql);  //try catchで囲む
+			resalt = stmt.executeUpdate (sql); 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return rs;
-		
+		return resalt;	
 	}
+	
 	public ResultSet getLogin(String reservation_userid){
 		String sql = "SELECT * FROM user WHERE user_id ='" + reservation_userid + "';";
 		try {
@@ -134,6 +133,20 @@ public class MySQL {
 			e.printStackTrace();
 		}	
 		return rs_int;
+	}
+	
+	public ResultSet getFacilityInfo(){
+		
+		String sql = "SELECT * FROM facility;";
+		ResultSet rs = null;
+		try {
+			rs = stmt.executeQuery (sql);  //try catchで囲む
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rs;
+		
 	}
 }
 

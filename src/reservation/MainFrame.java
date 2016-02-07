@@ -123,63 +123,43 @@ public class MainFrame extends Frame implements ActionListener,WindowListener,Ke
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void windowOpened(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void windowClosing(WindowEvent e) {
-		// TODO Auto-generated method stub
 		System.exit(0);
-		
 	}
 
 	@Override
 	public void windowClosed(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void windowIconified(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
-	public void windowDeiconified(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
+	public void windowDeiconified(WindowEvent e) {	
 	}
 
 	@Override
 	public void windowActivated(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void windowDeactivated(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -196,6 +176,10 @@ public class MainFrame extends Frame implements ActionListener,WindowListener,Ke
 			result = reservationControl.makeReservation(this);
 		}else if(e.getSource() == buttonConfirm){
 			result = reservationControl.getReservation_user();
+		}else if(e.getSource() == buttonExplanation){
+			result = reservationControl.facilityInfo();
+		}else if(e.getSource() == buttonCancel){
+			result = reservationControl.delReservation();
 		}
 
 		textMessage.setText(result);
