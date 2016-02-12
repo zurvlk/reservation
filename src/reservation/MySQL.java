@@ -28,9 +28,15 @@ public class MySQL {
 			this.con = DriverManager.getConnection(url, user, password);
 			this.stmt = con.createStatement ();
 		} catch (SQLException e) {
+
 			e.printStackTrace();
 		}
 		
+		try {
+			Class.forName (driver);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 		try {
 			Class.forName (driver);
 		} catch (ClassNotFoundException e) {
@@ -40,7 +46,7 @@ public class MySQL {
 	}
 	
 	public void close(){
-		
+
 		try {
 			rs.close();
 			stmt.close();
@@ -70,7 +76,12 @@ public class MySQL {
 		try {
 			rs = stmt.executeQuery (sql); 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			try {
+				rs = stmt.executeQuery (sql);
+			} catch (SQLException e1) {
+				// TODO 自動生成された catch ブロック
+				e1.printStackTrace();
+			} 
 		}
 		return rs;
 		
@@ -78,6 +89,7 @@ public class MySQL {
 	
 	public int deleate_Reservation(String reservation_userid){
 		String sql = "DELETE FROM `reservation` WHERE user_id ='" + reservation_userid + "';";
+
 		int resalt = 0;
 		try {
 			resalt = stmt.executeUpdate (sql); 
@@ -104,7 +116,7 @@ public class MySQL {
 			      "' AND date = '" + rdate + "' ;";
 			      // クエリーを実行して結果のセットを取得
 		ResultSet rs = null;
-		
+
 		try {
 			rs = stmt.executeQuery(sql);
 		} catch (SQLException e) {
@@ -116,6 +128,7 @@ public class MySQL {
 	
 	public int setReservation(String rdate, String st, String et, String reservation_userid, String facility){
 		int rs_int = 0;
+
 		String sql = "INSERT INTO reservation (date,start_time,end_time,user_id,facility_name) VALUES ( '"
 		    + rdate +"', '"  + st +"','" + et + "','" + reservation_userid +"','" + facility +"');";
 		    	
@@ -128,6 +141,7 @@ public class MySQL {
 	}
 	
 	public ResultSet getFacilityInfo(){
+
 		String sql = "SELECT * FROM facility;";
 		ResultSet rs = null;
 		try {
